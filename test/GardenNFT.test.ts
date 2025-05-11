@@ -36,7 +36,7 @@ describe("GardenNFT", function () {
   it("Should fail to mint if not owner", async function () {
     await expect(
       gardenNFT.connect(addr1).mint(addr2.address)
-    ).to.be.revertedWith("Ownable: caller is not the owner");
+    ).to.be.revertedWithCustomError(gardenNFT, "OwnableUnauthorizedAccount");
   });
 
   it("Should transfer NFT between accounts", async function () {

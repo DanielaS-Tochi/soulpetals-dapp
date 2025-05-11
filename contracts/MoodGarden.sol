@@ -9,10 +9,9 @@ contract MoodGarden is Ownable {
     PetalToken public petalToken;
     GardenNFT public gardenNFT;
 
+    mapping(uint256 => string) public tokenMood;
     uint256 public constant UPGRADE_COST = 100 * 10 ** 18;
-
-    mapping(uint256 => string) private tokenMood;
-    mapping(uint256 => uint256) private gardenLevel;
+    mapping(uint256 => uint256) public gardenLevel;
 
     event MoodSet(uint256 indexed tokenId, string mood);
     event GardenUpgraded(uint256 indexed tokenId, uint256 newLevel);
@@ -22,17 +21,17 @@ contract MoodGarden is Ownable {
         gardenNFT = GardenNFT(_gardenNFT);
     }
 
-    function mintGarden(address to, string memory uri) external onlyOwner {
-        gardenNFT.mintWithURI(to, uri);
+    function mintGarden(address to) public onlyOwner {
+        gardenNFT.mint(to);
     }
 
-    function setMood(uint256 tokenId, string calldata mood) external {
+    function setMood(uint256 tokenId, string memory mood) public {
         require(gardenNFT.ownerOf(tokenId) == msg.sender, "Not the owner of this garden");
         tokenMood[tokenId] = mood;
         emit MoodSet(tokenId, mood);
     }
 
-    function upgradeGarden(uint256 tokenId) external {
+    function upgradeGarden(uint256 tokenId) public {
         require(gardenNFT.ownerOf(tokenId) == msg.sender, "Not the owner of this garden");
         require(petalToken.balanceOf(msg.sender) >= UPGRADE_COST, "Insufficient PETAL tokens");
         require(petalToken.allowance(msg.sender, address(this)) >= UPGRADE_COST, "Approve tokens first");
@@ -42,11 +41,11 @@ contract MoodGarden is Ownable {
         emit GardenUpgraded(tokenId, gardenLevel[tokenId]);
     }
 
-    function getMood(uint256 tokenId) external view returns (string memory) {
+    function getMood(uint256 tokenId) public view returns (string memory) {
         return tokenMood[tokenId];
     }
 
-    function getGardenLevel(uint256 tokenId) external view returns (uint256) {
+    function getGardenLevel(uint256 tokenId) public view returns (uint256) {
         return gardenLevel[tokenId];
     }
 }

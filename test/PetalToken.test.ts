@@ -35,7 +35,7 @@ describe("PetalToken", function () {
   it("Should fail to mint if not owner", async function () {
     await expect(
       petalToken.connect(addr1).mint(addr2.address, ethers.parseEther("1000"))
-    ).to.be.revertedWith("Ownable: caller is not the owner");
+    ).to.be.revertedWithCustomError(petalToken, "OwnableUnauthorizedAccount");
   });
 
   it("Should transfer tokens between accounts", async function () {
