@@ -1,0 +1,103 @@
+.container {
+  font-family: 'Arial', sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  min-height: 100vh;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.title {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  background-color: #e74c3c;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  margin: 10px;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #c0392b;
+}
+
+.button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.garden-section {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.garden-info {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #34495e;
+}
+
+.mood-input {
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.input {
+  padding: 10px;
+  font-size: 1em;
+  border: 2px solid #ecf0f1;
+  border-radius: 6px;
+  width: 200px;
+  transition: border-color 0.3s;
+}
+
+.input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.input:disabled {
+  background-color: #ecf0f1;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+  .title {
+    font-size: 2.2em;
+  }
+  .button {
+    width: 80%;
+    margin: 5px 0;
+    font-size: 1em;
+  }
+  .mood-input {
+    flex-direction: column;
+    align-items: center;
+  }
+  .input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .garden-section {
+    padding: 15px;
+  }
+}
