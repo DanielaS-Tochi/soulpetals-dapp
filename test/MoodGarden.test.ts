@@ -53,6 +53,14 @@ describe("MoodGarden", function () {
     expect(await petalToken.balanceOf(addr1.address)).to.equal(ethers.parseEther("900"));
   });
 
+  it("Should revert upgradeGarden with insufficient token balance", async function () {
+    await moodGarden.mintGarden(addr2.address); // tokenId 1 para addr2
+    await petalToken.connect(addr2).approve(await moodGarden.getAddress(), ethers.parseEther("100")); // Aprobamos tokens
+    await expect(
+      moodGarden.connect(addr2).upgradeGarden(1)
+    ).to.be.revertedWith("Insufficient PETAL tokens"); // Cambiamos a esperar el mensaje correcto
+  });
+
   it("Should emit events correctly", async function () {
     await moodGarden.mintGarden(addr1.address);
     await petalToken.connect(addr1).approve(await moodGarden.getAddress(), ethers.parseEther("100"));
