@@ -38,7 +38,7 @@ const App: React.FC = () => {
       setMoodGarden(moodGardenContract);
       console.log("MoodGarden contract initialized at:", moodGardenAddress);
 
-      // Reemplaza con la dirección real de PetalToken
+      // Dirección de PetalToken
       const petalTokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"; // Actualiza con la dirección de PetalToken
       const petalTokenContract = new ethers.Contract(petalTokenAddress, petalTokenAbi, signer);
       setPetalToken(petalTokenContract);
