@@ -8,12 +8,13 @@
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Hardhat](https://img.shields.io/badge/Hardhat-F9DC3E?style=for-the-badge&logo=ethereum&logoColor=black)](https://hardhat.org/)
+[![ethers.js](https://img.shields.io/badge/ethers.js-5C6BC0?style=for-the-badge&logo=ethereum&logoColor=white)](https://docs.ethers.org/)
 
 </div>
 
 ## 📝 Descripción
 
-SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios crear y nutrir jardines digitales mágicos en la blockchain. Cada jardín refleja las emociones del usuario a través de estados de ánimo personalizables, creciendo y evolucionando a medida que interactúan con él. Construido con Solidity, React, TypeScript y Hardhat, SoulPetals combina la expresión emocional con la tecnología blockchain para crear una experiencia única e inmersiva.
+SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios crear y nutrir jardines digitales mágicos en la blockchain. Cada jardín refleja las emociones del usuario a través de estados de ánimo personalizables, creciendo y evolucionando a medida que interactúan con él. Construido con Solidity, React, TypeScript, ethers.js y Hardhat, SoulPetals combina la expresión emocional con la tecnología blockchain para crear una experiencia única e inmersiva.
 
 ## ✨ Características
 
@@ -21,13 +22,14 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 - **😊 Establece tu Estado de Ánimo**: Elige un estado (alegre, sereno, vibrante) para influir en la apariencia y descripción de tu jardín.
 - **🔄 Tokens PETAL**: Utiliza PetalToken para interactuar con tu jardín, aprobando tokens para mejoras.
 - **⬆️ Mejora tu Jardín**: Sube de nivel tu jardín, mejorando su crecimiento y apariencia visual.
-- **🤖 Descripciones Dinámicas**: El jardín genera descripciones dinámicamente basadas en el estado de ánimo y la entrada del usuario.
 - **📱 Diseño Responsivo**: Estilizado con la paleta de colores de Ethereum, toques florales y un diseño adaptable a dispositivos móviles.
+
+> **Nota:** Actualmente la visualización del jardín es un placeholder. Las descripciones dinámicas y visuales avanzadas están planificadas como mejoras futuras.
 
 ## 🛠️ Stack Tecnológico
 
 - **Smart Contracts**: Solidity (Hardhat)
-- **Frontend**: React, TypeScript, Viem
+- **Frontend**: React, TypeScript, ethers.js
 - **Estilos**: CSS personalizado con colores inspirados en Ethereum y elementos florales
 - **Testing**: Hardhat 
 - **Wallet**: MetaMask 
@@ -38,7 +40,7 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 - npm o yarn
 - Hardhat
 - Extensión de navegador MetaMask
-- Cuenta de Infura 
+- Cuenta de Infura (solo para despliegue en testnet)
 
 ## 🚀 Instalación y Configuración
 
@@ -90,7 +92,17 @@ npm run dev
 
 Abre http://localhost:5173 en tu navegador para interactuar con la dApp.
 
-### 6. Desplegar en Sepolia (Opcional)
+### 6. Ejecutar Tests de Contratos
+
+Desde la raíz del proyecto:
+
+```bash
+npx hardhat test
+```
+
+Esto ejecutará los tests ubicados en la carpeta `test/`.
+
+### 7. Desplegar en Sepolia (Opcional)
 
 Para desplegar en la testnet Sepolia para integración con MetaMask:
 
@@ -120,15 +132,14 @@ Asegúrate de que MetaMask esté configurado en la red Sepolia y conecta tu wall
 1. **Conectar Wallet**: Haz clic en "Connect Wallet" para vincular MetaMask (local o Sepolia).
 2. **Mintear un Jardín**: Crea tu jardín mágico con un estado de ánimo sugerido.
 3. **Establecer Estado de Ánimo**: Elige o introduce un estado para ver cómo cambia la descripción y color de tu jardín.
-4. **Personalizar Jardín**: Añade una descripción personal para hacer tu jardín único.
-5. **Aprobar Tokens**: Aprueba PetalToken para habilitar mejoras.
-6. **Mejorar Jardín**: Sube de nivel tu jardín, mejorando su descripción y crecimiento.
+4. **Aprobar Tokens**: Aprueba PetalToken para habilitar mejoras.
+5. **Mejorar Jardín**: Sube de nivel tu jardín, mejorando su descripción y crecimiento.
 
 ## 🎨 Aspectos Destacados del Diseño
 
 - **Paleta Ethereum**: Utiliza colores de Ethereum (#1A2536, #4A90E2, #A0AEC0, etc.) para una estética blockchain.
 - **Toques Florales**: Incorpora verde (#2F855A) y rosa floral (#F687B3) para una vibrante sensación de jardín.
-- **Visuales Dinámicos**: El fondo del jardín cambia según el estado de ánimo, con descripciones generadas para inmersión.
+- **Visuales Dinámicos**: El fondo del jardín cambiará según el estado de ánimo en futuras versiones.
 - **Diseño Responsivo**: Optimizado tanto para dispositivos de escritorio como móviles.
 
 ## 🔮 Mejoras Futuras
@@ -136,6 +147,7 @@ Asegúrate de que MetaMask esté configurado en la red Sepolia y conecta tu wall
 - **Integración con Chainlink**: Usar Chainlink VRF para sugerencias de estado de ánimo descentralizadas.
 - **Visuales Mejorados**: Añadir imágenes dinámicas o animaciones canvas para el jardín.
 - **Animaciones**: Introducir transiciones para cambios de estado de ánimo y nivel.
+- **Descripciones Dinámicas**: Generar descripciones automáticas según el estado de ánimo y nivel del jardín.
 
 ## 🤝 Contribuciones
 
@@ -147,4 +159,4 @@ MIT License
 
 ## 📬 Contacto
 
-Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="../soulpetals-dapp/frontend/public/favicon-16x16.png" /> 
+Para preguntas o feedback, contactame: danielastochi@gmail.com
