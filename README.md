@@ -29,8 +29,8 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 - **Smart Contracts**: Solidity (Hardhat)
 - **Frontend**: React, TypeScript, Viem
 - **Estilos**: CSS personalizado con colores inspirados en Ethereum y elementos florales
-- **Testing**: Hardhat (blockchain local)
-- **Wallet**: MetaMask (listo para despliegue en Sepolia)
+- **Testing**: Hardhat 
+- **Wallet**: MetaMask 
 
 ## 📋 Requisitos Previos
 
@@ -38,14 +38,14 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 - npm o yarn
 - Hardhat
 - Extensión de navegador MetaMask
-- Cuenta de Infura (para despliegue en Sepolia)
+- Cuenta de Infura 
 
 ## 🚀 Instalación y Configuración
 
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/your-username/soulpetals-dapp.git
+git clone https://github.com/danielas-tochi/soulpetals-dapp.git
 cd soulpetals-dapp
 ```
 
@@ -117,7 +117,7 @@ Asegúrate de que MetaMask esté configurado en la red Sepolia y conecta tu wall
 
 ## 📱 Uso
 
-1. **Conectar Wallet**: Haz clic en "Conectar Wallet" para vincular MetaMask (local o Sepolia).
+1. **Conectar Wallet**: Haz clic en "Connect Wallet" para vincular MetaMask (local o Sepolia).
 2. **Mintear un Jardín**: Crea tu jardín mágico con un estado de ánimo sugerido.
 3. **Establecer Estado de Ánimo**: Elige o introduce un estado para ver cómo cambia la descripción y color de tu jardín.
 4. **Personalizar Jardín**: Añade una descripción personal para hacer tu jardín único.
@@ -147,4 +147,4 @@ MIT License
 
 ## 📬 Contacto
 
-Para preguntas o feedback, contactame: danielastochi@gmail.com
+Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="../soulpetals-dapp/frontend/public/favicon-16x16.png" /> 
