@@ -19,12 +19,13 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 ## ✨ Características
 
 - **🌱 Crea tu Jardín**: Mintea tu propio jardín mágico como un NFT usando el contrato MoodGarden.
-- **😊 Establece tu Estado de Ánimo**: Elige un estado (alegre, sereno, vibrante) para influir en la apariencia y descripción de tu jardín.
+- **😊 Establece tu Estado de Ánimo**: Elige un estado (alegre, sereno, vibrante, etc.) para influir en la apariencia y descripción de tu jardín.
 - **🔄 Tokens PETAL**: Utiliza PetalToken para interactuar con tu jardín, aprobando tokens para mejoras.
 - **⬆️ Mejora tu Jardín**: Sube de nivel tu jardín, mejorando su crecimiento y apariencia visual.
+- **🖼️ Visualización de Jardín**: Actualmente, la visualización del jardín se realiza mediante imágenes fijas precargadas según el estado de ánimo seleccionado.
 - **📱 Diseño Responsivo**: Estilizado con la paleta de colores de Ethereum, toques florales y un diseño adaptable a dispositivos móviles.
 
-> **Nota:** Actualmente la visualización del jardín es un placeholder. Las descripciones dinámicas y visuales avanzadas están planificadas como mejoras futuras.
+> **Nota:** La integración con IA para generación dinámica de imágenes está planificada como mejora futura. Por ahora, las imágenes se muestran según el mood elegido.
 
 ## 🛠️ Stack Tecnológico
 
@@ -32,7 +33,7 @@ SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios 
 - **Frontend**: React, TypeScript, ethers.js
 - **Estilos**: CSS personalizado con colores inspirados en Ethereum y elementos florales
 - **Testing**: Hardhat 
-- **Wallet**: MetaMask 
+- **Wallet**: MetaMask y Privy
 
 ## 📋 Requisitos Previos
 
