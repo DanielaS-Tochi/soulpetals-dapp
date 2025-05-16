@@ -160,5 +160,4 @@ MIT License
 
 ## 📬 Contacto
 
- Para preguntas o feedback, contactame: danielastochi@gmail.com  
-<img src="images/daniela-silvana-tochi.jpg" alt="Daniela logo" width="30"/>
+ Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/daniela-silvana-tochi.jpg" alt="Daniela logo" width="30"/>
