@@ -11,11 +11,11 @@ contract GardenNFT is ERC721, Ownable {
         _tokenIdCounter = 0;
     }
 
-    function mint(address to) public onlyOwner returns (uint256) {
+    function mint(address to) public returns (uint256) {
+        uint256 tokenId = _tokenIdCounter;
+        _safeMint(to, tokenId);
         _tokenIdCounter++;
-        uint256 newTokenId = _tokenIdCounter;
-        _safeMint(to, newTokenId);
-        return newTokenId;
+        return tokenId;
     }
 
     function getCurrentTokenId() public view returns (uint256) {

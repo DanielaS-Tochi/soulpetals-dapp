@@ -21,7 +21,7 @@ contract MoodGarden is Ownable {
         gardenNFT = GardenNFT(_gardenNFT);
     }
 
-    function mintGarden(address to) public onlyOwner {
+    function mintGarden(address to) public {
         gardenNFT.mint(to);
     }
 
