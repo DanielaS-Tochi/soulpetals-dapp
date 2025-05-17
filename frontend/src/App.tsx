@@ -21,9 +21,9 @@ function generateMockGardenImage(mood: string): string {
 }
 
 // Update these addresses for your deployment
-const moodGardenAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
-const petalTokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const gardenNftAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+const moodGardenAddress = import.meta.env.VITE_MOOD_GARDEN_ADDRESS;
+const petalTokenAddress = import.meta.env.VITE_PETAL_TOKEN_ADDRESS;
+const gardenNftAddress = import.meta.env.VITE_GARDEN_NFT_ADDRESS;
 
 const moodSuggestions = ["peaceful", "joyful", "vibrant", "serene", "mystical"];
 
@@ -184,9 +184,37 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-        <img src="/images/eth-logo.jpg" alt="Ethereum Logo" className="eth-logo" />
-        <h1 className="title" style={{ margin: 0 }}>SoulPetals</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
+        <img
+          src="/images/eth-logo.jpg"
+          alt="Ethereum Logo"
+          className="eth-logo"
+          style={{
+            width: 94,
+            height: 94,
+            borderRadius: "50%",
+            boxShadow: "0 0 12px #4A90E2, 0 0 4px #f687b3",
+            objectFit: "cover",
+            marginRight: 8,
+            background: "#fff"
+          }}
+        />
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+          <h1 className="title" style={{ margin: 0 }}>SoulPetals</h1>
+          <span
+            className="subtitle"
+            style={{
+              fontSize: "1.15em",
+              color: "#2F855A",
+              marginTop: 4,
+              fontWeight: 600,
+              letterSpacing: "0.5px",
+              textShadow: "0 1px 8px #ffe0f0, 0 0 2px #4A90E2"
+            }}
+          >
+            🌸 Jardines Emocionales en Blockchain 🌱
+          </span>
+        </div>
       </div>
       <div style={{ marginBottom: 20 }}>
         {!ready ? (

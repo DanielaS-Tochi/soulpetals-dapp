@@ -1,4 +1,8 @@
-# SoulPetals 🌸 - Jardines Emocionales en Blockchain
+<div align="center">
+  <img src="frontend/public/images/eth-logo.jpg" alt="SoulPetals Logo" width="80" style="border-radius: 50%; margin-bottom: 12px;" />
+</div>
+
+# SoulPetals - Jardines Emocionales en Blockchain
 
 <div align="center">
   
@@ -9,23 +13,26 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Hardhat](https://img.shields.io/badge/Hardhat-F9DC3E?style=for-the-badge&logo=ethereum&logoColor=black)](https://hardhat.org/)
 [![ethers.js](https://img.shields.io/badge/ethers.js-5C6BC0?style=for-the-badge&logo=ethereum&logoColor=white)](https://docs.ethers.org/)
-
+[![Privy](https://img.shields.io/badge/Privy-4A90E2?style=for-the-badge)](https://privy.io/)
 </div>
 
 ## 📝 Descripción
 
-SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios crear y nutrir jardines digitales mágicos en la blockchain. Cada jardín refleja las emociones del usuario a través de estados de ánimo personalizables, creciendo y evolucionando a medida que interactúan con él. Construido con Solidity, React, TypeScript, ethers.js y Hardhat, SoulPetals combina la expresión emocional con la tecnología blockchain para crear una experiencia única e inmersiva.
+SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios crear y nutrir jardines digitales mágicos en la blockchain.
+Cada jardín refleja las emociones del usuario a través de estados de ánimo personalizables y una imagen creativa generada para cada mood.
+Construido con Solidity, React, TypeScript, ethers.js, Hardhat y Privy, SoulPetals combina la expresión emocional con la tecnología blockchain para crear una experiencia única e inmersiva.
+
+Actualmente, los jardines pueden ser minteados como NFT, personalizados con un estado de ánimo y compartidos o transferidos a otros usuarios.
+En futuras versiones, los jardines podrán crecer y evolucionar, y la generación de imágenes será potenciada por IA real.
 
 ## ✨ Características
 
 - **🌱 Crea tu Jardín**: Mintea tu propio jardín mágico como un NFT usando el contrato MoodGarden.
-- **😊 Establece tu Estado de Ánimo**: Elige un estado (alegre, sereno, vibrante, etc.) para influir en la apariencia y descripción de tu jardín.
-- **🔄 Tokens PETAL**: Utiliza PetalToken para interactuar con tu jardín, aprobando tokens para mejoras.
-- **⬆️ Mejora tu Jardín**: Sube de nivel tu jardín, mejorando su crecimiento y apariencia visual.
+- **😊 Establece tu Estado de Ánimo**: Elige un estado de ánimo (mood: peaceful, serene, vibrant, etc.) para influir en la apariencia y descripción de tu jardín.
 - **🖼️ Visualización de Jardín**: Actualmente, la visualización del jardín se realiza mediante imágenes fijas precargadas según el estado de ánimo seleccionado.
 - **📱 Diseño Responsivo**: Estilizado con la paleta de colores de Ethereum, toques florales y un diseño adaptable a dispositivos móviles.
 
-> **Nota:** La integración con IA para generación dinámica de imágenes está planificada como mejora futura. Por ahora, las imágenes se muestran según el mood elegido.
+> **Nota:** La integración con IA para generación dinámica de imágenes está planificada como mejora futura. Por ahora, las imágenes se muestran según el mood elegido y las imágenes precargadas.
 
 ## 🛠️ Stack Tecnológico
 
@@ -128,27 +135,38 @@ npx hardhat run scripts/deploy.ts --network sepolia
 Actualiza `App.tsx` con las nuevas direcciones de contratos.
 Asegúrate de que MetaMask esté configurado en la red Sepolia y conecta tu wallet.
 
+## 🚪 Acceso y autenticación
+
+Puedes acceder a SoulPetals de dos maneras:
+- **Email o Google**: Privy te crea automáticamente una wallet embebida segura si no tienes una.
+- **Wallet externa**: También puedes conectar MetaMask u otra wallet compatible si lo prefieres.
+
+No es obligatorio tener MetaMask para usar la dApp: puedes operar solo con tu email y la wallet generada por Privy.
+
 ## 📱 Uso
 
 1. **Conectar Wallet**: Haz clic en "Connect Wallet" para vincular MetaMask (local o Sepolia).
-2. **Mintear un Jardín**: Crea tu jardín mágico con un estado de ánimo sugerido.
-3. **Establecer Estado de Ánimo**: Elige o introduce un estado para ver cómo cambia la descripción y color de tu jardín.
-4. **Aprobar Tokens**: Aprueba PetalToken para habilitar mejoras.
-5. **Mejorar Jardín**: Sube de nivel tu jardín, mejorando su descripción y crecimiento.
+2. **Mintear un Jardín**: Crea tu jardín mágico como NFT.
+3. **Setear Mood**: Elige un mood sugerido o escribe el tuyo.
+4. **Generar Jardín**: (Opcional) Describe tu jardín ideal y genera la imagen (en este momento, se muestra una imagen precargada).
+5. **Cambiar mood**: Comienza desde cero con un mood nuevo.
+6. **Transferir tu Jardín como NFT**: Comparte tu jardín transfiriendo tu NFT a otra dirección.
 
 ## 🎨 Aspectos Destacados del Diseño
 
 - **Paleta Ethereum**: Utiliza colores de Ethereum (#1A2536, #4A90E2, #A0AEC0, etc.) para una estética blockchain.
 - **Toques Florales**: Incorpora verde (#2F855A) y rosa floral (#F687B3) para una vibrante sensación de jardín.
-- **Visuales Dinámicos**: El fondo del jardín cambiará según el estado de ánimo en futuras versiones.
 - **Diseño Responsivo**: Optimizado tanto para dispositivos de escritorio como móviles.
 
 ## 🔮 Mejoras Futuras
 
 - **Integración con Chainlink**: Usar Chainlink VRF para sugerencias de estado de ánimo descentralizadas.
-- **Visuales Mejorados**: Añadir imágenes dinámicas o animaciones canvas para el jardín.
-- **Animaciones**: Introducir transiciones para cambios de estado de ánimo y nivel.
-- **Descripciones Dinámicas**: Generar descripciones automáticas según el estado de ánimo y nivel del jardín.
+- **Imágenes**: Integrar generación de imágenes IA real.
+- **Tokens PETAL**: Utiliza PetalToken para interactuar con tu jardín, aprobando tokens para mejoras.
+- **Mejora tu Jardín**: Sube de nivel tu jardín, mejorando su crecimiento y apariencia visual.
+- **UX/UI**: Mejorar la experiencia móvil.
+- **Funcionalidades sociales**: Agregar perfil de usuario y galería de jardines.
+- **Red social de jardines:** Permitir a los usuarios compartir, explorar, dar “like” y comentar jardines en un feed público.
 
 ## 🤝 Contribuciones
 
