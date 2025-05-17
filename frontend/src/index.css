@@ -31,24 +31,15 @@ a:hover {
   color: var(--floral-pink);
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  min-width: 100vw;
-  min-height: 100vh;
-  background: var(--bg-gradient);
-  color: var(--text-main);
-  overflow: hidden; /* Evita el scroll */
-  box-sizing: border-box;
-}
-
-html {
+html, body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-x: hidden;   /* Oculta scroll horizontal */
+  overflow-y: auto;     /* Permite scroll vertical */
   box-sizing: border-box;
+  background: var(--bg-gradient);
 }
 
 h1 {

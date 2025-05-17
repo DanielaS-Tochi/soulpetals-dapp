@@ -20,9 +20,12 @@ function generateMockGardenImage(mood: string): string {
   return images[key] || images.default;
 }
 
+// Update these addresses for your deployment
 const moodGardenAddress = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 const petalTokenAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 const gardenNftAddress = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+
+const moodSuggestions = ["peaceful", "joyful", "vibrant", "serene", "mystical"];
 
 const App: React.FC = () => {
   const { ready, authenticated, login, logout } = usePrivy();
@@ -106,7 +109,7 @@ const App: React.FC = () => {
             break;
           }
         } catch {
-          // Ignore errors from parsing logs
+          // Ignore unrelated logs
         }
       }
       if (mintedTokenId === null) {
@@ -123,6 +126,12 @@ const App: React.FC = () => {
   };
 
   // Set the mood for the garden
+  const handleMoodInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Only letters, no spaces or special chars, max 16
+    const value = e.target.value.replace(/[^a-zA-Z]/g, '').slice(0, 16);
+    setMood(value);
+  };
+
   const setGardenMood = async () => {
     if (!moodGarden || !gardenId || !mood || loading) return;
     setLoading(true);
@@ -146,8 +155,7 @@ const App: React.FC = () => {
     try {
       const imageUrl = generateMockGardenImage(mood || "default");
       setGardenImage(imageUrl);
-    } catch (_err) {
-      console.error("Error generating image:", _err);
+    } catch {
       alert("Error generating mock image");
     }
     setGenerating(false);
@@ -177,11 +185,9 @@ const App: React.FC = () => {
   return (
     <div className="container">
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-  <h1 className="title" style={{ margin: 0 }}>SoulPetals</h1> 
-  <img src="/images/eth-logo.jpg" alt="Ethereum Logo" className="eth-logo" />
-
-</div>
-        {/* 🌸</h1> */}
+        <img src="/images/eth-logo.jpg" alt="Ethereum Logo" className="eth-logo" />
+        <h1 className="title" style={{ margin: 0 }}>SoulPetals</h1>
+      </div>
       <div style={{ marginBottom: 20 }}>
         {!ready ? (
           <span>Loading...</span>
@@ -211,89 +217,99 @@ const App: React.FC = () => {
                   Current Mood: {currentMood ? currentMood : 'Not set'}
                 </p>
                 <div className="mood-input">
-                  <input
-                    type="text"
-                    value={mood}
-                    onChange={(e) => setMood(e.target.value)}
-                    placeholder="Type a mood"
+                  <select
                     className="input"
-                    disabled={loading}
+                    value={mood}
+                    onChange={e => setMood(e.target.value)}
+                    style={{ width: 110, fontSize: "1em" }}
+                  >
+                    <option value="">Mood</option>
+                    {moodSuggestions.map(m => (
+                      <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>
+                    ))}
+                  </select>
+                  <input
+                    className="input"
+                    type="text"
+                    placeholder="Or type mood"
+                    value={mood}
+                    onChange={handleMoodInput}
+                    style={{ width: 90, fontSize: "1em" }}
+                    maxLength={16}
+                    pattern="[A-Za-z]+"
                   />
-                  <button className="button" onClick={setGardenMood} disabled={loading}>
+                  <button className="button" onClick={setGardenMood} disabled={loading || !mood}>
                     {loading ? 'Setting...' : 'Set Mood'}
                   </button>
                 </div>
-                <button className="button" onClick={approveTokens} disabled={loading}>
-                  {loading ? 'Approving...' : 'Approve Tokens'}
-                </button>
+                <div className="centered-btn">
+                  <button className="button" onClick={approveTokens} disabled={loading}>
+                    {loading ? 'Approving...' : 'Approve Tokens'}
+                  </button>
+                </div>
               </div>
               <div className="garden-visual">
                 {!gardenImage ? (
-                  <div style={{ margin: "20px 0", width: "100%" }}>
-                    <input
-                      className="input"
-                      type="text"
-                      placeholder="Type a mood"
-                      value={mood}
-                      onChange={e => setMood(e.target.value)}
-                      disabled={loading || generating}
-                      style={{ width: "80%", maxWidth: 400, marginRight: 8 }}
-                    />
-                    <input
-                      className="input"
-                      type="text"
-                      placeholder="Describe your garden (optional)"
-                      value={prompt}
-                      onChange={e => setPrompt(e.target.value)}
-                      disabled={loading || generating}
-                      style={{ width: "80%", maxWidth: 400, marginRight: 8 }}
-                    />
-                    <button
-                      className="button"
-                      onClick={handleGenerateImage}
-                      disabled={loading || generating}
-                    >
-                      {generating ? "Generating..." : "Generate Garden IA"}
-                    </button>
-                  </div>
-                ) : (
-                  <div style={{ width: "100%", height: "100%" }}>
-                    <img
-                      src={gardenImage}
-                      alt="AI generated garden"
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        borderRadius: 16,
-                        border: "4px solid #627eea",
-                        boxShadow: "0 0 24px #f687b3"
-                      }}
-                    />
-                    <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-                      <button className="button" onClick={() => setGardenImage(null)}>
-                        Change Mood
-                      </button>
-                      <div style={{ marginTop: 8 }}>
+                  <div style={{ width: "100%" }}>
+                    {currentMood && (
+                      <>
                         <input
                           className="input"
                           type="text"
-                          placeholder="Recipient address"
-                          value={transferTo}
-                          onChange={e => setTransferTo(e.target.value)}
-                          style={{ width: 220, marginRight: 8 }}
-                          disabled={loading}
+                          placeholder="Describe your garden (optional)"
+                          value={prompt}
+                          onChange={e => setPrompt(e.target.value)}
+                          disabled={loading || generating}
+                          style={{ width: "100%", maxWidth: 400, marginRight: 8 }}
                         />
                         <button
                           className="button"
-                          onClick={transferNFT}
-                          disabled={loading || !transferTo}
+                          onClick={handleGenerateImage}
+                          disabled={!currentMood || loading || generating}
+                          style={{ marginTop: 12 }}
                         >
-                          {loading ? "Transferring..." : "Transfer NFT"}
+                          {generating ? "Generating..." : "Generate Garden IA"}
                         </button>
-                      </div>
-                    </div>
+                      </>
+                    )}
                   </div>
+                ) : (
+                  <>
+                    <div className="garden-image-box">
+                      <img
+                        src={gardenImage}
+                        alt="AI generated garden"
+                      />
+                    </div>
+                    <div className="garden-actions">
+                      <button
+                        className="button"
+                        onClick={() => {
+                          setGardenImage(null);
+                          setMood('');
+                          setCurrentMood(''); // Borra el current mood hasta que se setee uno nuevo
+                        }}
+                      >
+                        Change Mood
+                      </button>
+                      <input
+                        className="input"
+                        type="text"
+                        placeholder="Recipient address"
+                        value={transferTo}
+                        onChange={e => setTransferTo(e.target.value)}
+                        style={{ width: 180, marginBottom: 8 }}
+                        disabled={loading}
+                      />
+                      <button
+                        className="button"
+                        onClick={transferNFT}
+                        disabled={loading || !transferTo}
+                      >
+                        {loading ? "Transferring..." : "Transfer NFT"}
+                      </button>
+                    </div>
+                  </>
                 )}
               </div>
             </div>
