@@ -33,11 +33,23 @@ a:hover {
 
 body {
   margin: 0;
-  min-width: 320px;
+  padding: 0;
+  min-width: 100vw;
   min-height: 100vh;
   background: var(--bg-gradient);
   color: var(--text-main);
- }
+  overflow: hidden; /* Evita el scroll */
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
 h1 {
   font-size: 3.2em;
