@@ -276,9 +276,9 @@ import moodGardenAbi from './abi/moodGardenAbi.json';
 // Función mock para imágenes fijas
 function generateMockGardenImage(mood: string): string {
   const images: Record<string, string> = {
-    peaceful: "/peaceful.jpg",
+    peaceful: "/images/peaceful.jpg",
     // Puedes agregar más moods aquí
-    default: "/peaceful.jpg",
+    default: "/images/peaceful.jpg",
   };
   return images[mood] || images.default;
 }
@@ -509,8 +509,8 @@ const App: React.FC = () => {
                   </button>
                 </div>
                 {gardenImage && (
-                  <div style={{ margin: "20px 0" }}>
-                    <img src={gardenImage} alt="Jardín generado por IA" style={{ maxWidth: 400, borderRadius: 16, border: "4px solid #627eea" }} />
+                  <div style={{ margin: "30px 0" }}>
+                    <img src={gardenImage} alt="Jardín generado por IA" style={{ maxWidth: 600, borderRadius: 16, border: "4px solid #627eea" }} />
                   </div>
                 )}
               </div>
