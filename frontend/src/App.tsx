@@ -9,12 +9,12 @@ import moodGardenAbi from './abi/moodGardenAbi.json';
 // Function to get the image for a mood, with a default fallback
 function generateMockGardenImage(mood: string): string {
   const images: Record<string, string> = {
-    peaceful: "/images/peaceful.jpg",
-    joyful: "/images/joyful.jpg",
-    vibrant: "/images/vibrant.jpg",
-    serene: "/images/serene.jpg",
-    mystical: "/images/mystical.jpg",
-    default: "/images/default.jpg",
+    peaceful: "./images/moods/peaceful.jpeg",
+    joyful: "/images/moods/joyful.jpeg",
+    vibrant: "/images/moods/vibrant.jpeg",
+    serene: "/images/moods/serene.jpeg",
+    mystical: "/images/moods/mystical.jpeg",
+    default: "/images/moods/default.jpeg",
   };
   const key = mood.trim().toLowerCase();
   return images[key] || images.default;
@@ -128,7 +128,7 @@ const App: React.FC = () => {
   // Set the mood for the garden
   const handleMoodInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     // Only letters, no spaces or special chars, max 16
-    const value = e.target.value.replace(/[^a-zA-Z]/g, '').slice(0, 16);
+    const value = e.target.value.replace(/[^a-zA-Z]/g, '').slice(0, 25);
     setMood(value);
   };
 
