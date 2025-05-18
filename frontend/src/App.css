@@ -46,7 +46,7 @@ html, body {
 }
 
 .button {
-  background: linear-gradient(90deg, #627eea 60%, #f687b3 100%);
+  background: linear-gradient(90deg, #2ecc71 60%, #27ae60 100%);
   color: white;
   padding: 14px 28px;
   border: none;
@@ -55,13 +55,49 @@ html, body {
   font-size: 1.1em;
   margin: 10px;
   font-weight: bold;
-  box-shadow: 0 2px 8px #a0aec0;
-  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .button:hover {
-  background: linear-gradient(90deg, #4a90e2 60%, #f687b3 100%);
-  transform: scale(1.05);
+  background: linear-gradient(90deg, #27ae60 60%, #2ecc71 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.button:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
 }
 
 .button:disabled {
@@ -70,32 +106,32 @@ html, body {
 }
 
 .garden-section {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(230, 230, 250, 0.95);
   padding: 28px;
   border-radius: 18px;
   box-shadow: 0 8px 24px rgba(98, 126, 234, 0.15);
-  margin-top: 24px;
+  margin: 24px auto;
   backdrop-filter: blur(6px);
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  gap: 36px;
-  max-width: 100vw;
-  max-height: 100vh;
+  max-width: 1200px;
+  min-height: 500px;
+  gap: 48px;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 .garden-controls {
   flex: 1;
-  text-align: left;
+  text-align: center;
   max-width: 320px;
-  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .garden-info {
@@ -108,12 +144,10 @@ html, body {
 .mood-input {
   margin: 18px 0;
   display: flex;
-  justify-content: flex-start;
-  gap: 12px;
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  width: 100%;
 }
 
 .input {
@@ -121,7 +155,8 @@ html, body {
   font-size: 1em;
   border: 2px solid #a0aec0;
   border-radius: 8px;
-  width: 220px;
+  width: 100%;
+  max-width: 280px;
   transition: border-color 0.3s;
   background: #f7fafc;
 }
@@ -137,28 +172,20 @@ html, body {
 }
 
 .garden-visual {
-  width: 100%;
+  flex: 1;
   max-width: 600px;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   gap: 32px;
   box-sizing: border-box;
-}
-
-.garden-visual img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 18px;
-  border: 4px solid #627eea;
-  box-shadow: 0 0 24px #f687b3;
+  min-height: 400px;
 }
 
 .garden-image-box {
-  width: 340px;
-  height: 340px;
+  width: 400px;
+  height: 400px;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 0 24px #f687b3;
@@ -167,6 +194,9 @@ html, body {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  margin: 20px 0;
+  aspect-ratio: 1/1;
+  flex-shrink: 0;
 }
 
 .garden-image-box img {
@@ -179,10 +209,10 @@ html, body {
 .garden-actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
   margin-top: 0;
-  align-items: center;
+  width: 100%;
 }
 
 .centered-btn {
@@ -193,6 +223,16 @@ html, body {
 }
 
 /* Petal Rain Animation */
+.petal-rain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
 .petal {
   position: absolute;
   width: 32px;
@@ -205,26 +245,41 @@ html, body {
 }
 
 @keyframes fall {
-  0% { transform: translateY(-40px) rotate(0deg);}
-  100% { transform: translateY(700px) rotate(360deg);}
+  0% {
+    transform: translateY(-40px) rotate(0deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 @media (max-width: 900px) {
   .garden-section {
     flex-direction: column;
     align-items: center;
-    padding: 16px;
-    gap: 20px;
+    padding: 12px;
+    gap: 12px;
+    min-height: auto;
+    margin: 12px auto;
   }
-  .garden-controls {
-    text-align: center;
-    max-width: 100%;
-  }
+  
   .garden-visual {
     width: 100%;
     min-width: 0;
-    height: 350px;
-    margin-top: 18px;
+    height: auto;
+    margin-top: 8px;
+    min-height: auto;
+  }
+
+  .garden-controls {
+    margin-bottom: 8px;
+  }
+
+  .mood-input {
+    margin: 8px 0;
+    gap: 8px;
   }
 }
 
@@ -232,32 +287,20 @@ html, body {
   .garden-visual {
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     max-width: 98vw;
   }
+  
   .garden-image-box {
-    width: 98vw;
-    max-width: 98vw;
-    height: 48vw;
-    max-height: 60vw;
-    min-height: 120px;
+    width: 300px;
+    height: 300px;
+    max-width: 90vw;
+    max-height: 90vw;
+    margin: 8px 0;
   }
-}
 
-@media (max-width: 700px) {
-  .garden-visual {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
   .garden-actions {
-    align-items: center;
-    width: 100%;
-  }
-  .garden-image-box {
-    width: 90vw;
-    max-width: 340px;
-    height: 200px;
+    gap: 8px;
   }
 }
 
@@ -265,33 +308,29 @@ html, body {
   .container {
     padding: 8px;
   }
-  .title {
-    font-size: 2em;
-  }
- 
-  .button {
-    width: 90%;
-    margin: 6px auto;
-    font-size: 1em;
-  }
-  .input {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  .garden-visual {
-    height: 220px;
-  }
-  @media (max-width: 600px) {
-  .button, .input {
-    font-size: 0.95em;
-    padding: 8px 12px;
-    min-width: 0;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .garden-actions {
-    width: 100%;
+
+  .garden-section {
+    padding: 8px;
     gap: 8px;
+    margin: 8px auto;
   }
-}
+
+  .garden-image-box {
+    width: 280px;
+    height: 280px;
+    margin: 4px 0;
+  }
+
+  .button {
+    margin: 4px auto;
+    padding: 10px 20px;
+  }
+
+  .input {
+    padding: 8px;
+  }
+
+  .garden-actions {
+    gap: 4px;
+  }
 }

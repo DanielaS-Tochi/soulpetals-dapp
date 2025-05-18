@@ -5,6 +5,7 @@ import { usePrivy, useWallets } from '@privy-io/react-auth';
 import petalTokenAbi from './abi/petalTokenAbi.json';
 import gardenNftAbi from './abi/gardenNftAbi.json';
 import moodGardenAbi from './abi/moodGardenAbi.json';
+import PetalRain from './components/PetalRain';
 
 // Function to get the image for a mood, with a default fallback
 function generateMockGardenImage(mood: string): string {
@@ -44,6 +45,7 @@ const App: React.FC = () => {
   const [gardenImage, setGardenImage] = useState<string | null>(null);
   const [generating, setGenerating] = useState(false);
   const [transferTo, setTransferTo] = useState('');
+  const [showPetalRain, setShowPetalRain] = useState(false);
 
   // Wallet and contract setup
   useEffect(() => {
@@ -95,31 +97,50 @@ const App: React.FC = () => {
 
   // Mint a new garden NFT
   const mintGarden = async () => {
-    if (!moodGarden || !signer || !gardenNFT || loading) return;
+    if (!moodGarden || !signer || !gardenNFT || loading) {
+      console.error("Missing requirements for minting:", {
+        hasMoodGarden: !!moodGarden,
+        hasSigner: !!signer,
+        hasGardenNFT: !!gardenNFT,
+        isLoading: loading
+      });
+      return;
+    }
     setLoading(true);
     try {
+      console.log("Starting mint process...");
       const tx = await moodGarden.mintGarden(await signer.getAddress(), { gasLimit: 300000 });
+      console.log("Mint transaction sent:", tx.hash);
       const receipt = await tx.wait();
+      console.log("Transaction receipt:", receipt);
+      
       let mintedTokenId: number | null = null;
       for (const log of receipt.logs) {
         try {
           const parsed = gardenNFT.interface.parseLog(log);
+          console.log("Parsed log:", parsed);
           if (parsed && parsed.name === "Transfer") {
             mintedTokenId = Number(parsed.args.tokenId);
+            console.log("Found token ID:", mintedTokenId);
             break;
           }
-        } catch {
-          // Ignore unrelated logs
+        } catch (err) {
+          console.error("Error parsing log:", err);
         }
       }
+      
       if (mintedTokenId === null) {
+        console.error("Could not find minted tokenId in logs");
         alert("Could not find minted tokenId. Check contract events and ABI.");
+        return;
       }
-      setGardenId(mintedTokenId ?? 0);
-      alert(`Garden minted!`);
+      
+      setGardenId(mintedTokenId);
+      console.log("Garden ID set to:", mintedTokenId);
+      alert(`Garden minted! ID: ${mintedTokenId}`);
     } catch (err) {
       console.error("Error minting garden:", err);
-      alert('Error minting garden');
+      alert('Error minting garden: ' + (err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }
@@ -133,17 +154,37 @@ const App: React.FC = () => {
   };
 
   const setGardenMood = async () => {
-    if (!moodGarden || !gardenId || !mood || loading) return;
+    if (!moodGarden || !gardenId || !mood || loading) {
+      console.error("Missing requirements for setting mood:", {
+        hasMoodGarden: !!moodGarden,
+        gardenId,
+        mood,
+        isLoading: loading
+      });
+      return;
+    }
     setLoading(true);
     try {
+      console.log("Setting mood for garden:", gardenId, "mood:", mood);
       const tx = await moodGarden.setMood(gardenId, mood);
+      console.log("Set mood transaction sent:", tx.hash);
       await tx.wait();
+      
       const newMood = await moodGarden.getMood(gardenId);
+      console.log("Retrieved new mood:", newMood);
       setCurrentMood(newMood);
+      
+      setShowPetalRain(true);
+      console.log('PetalRain activated');
+      setTimeout(() => {
+        setShowPetalRain(false);
+        console.log('PetalRain deactivated');
+      }, 5000);
+      
       alert('Mood set successfully!');
     } catch (err) {
       console.error("Error setting mood:", err);
-      alert('Error setting mood');
+      alert('Error setting mood: ' + (err instanceof Error ? err.message : String(err)));
     } finally {
       setLoading(false);
     }
@@ -184,6 +225,7 @@ const App: React.FC = () => {
 
   return (
     <div className="container">
+      {showPetalRain && <PetalRain />}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
         <img
           src="/images/eth-logo.jpg"
