@@ -110,35 +110,38 @@ const App: React.FC = () => {
     setLoading(true);
     try {
       console.log("Starting mint process...");
-      const tx = await moodGarden.mintGarden(await signer.getAddress(), { gasLimit: 300000 });
+      
+      // Verify contract addresses
+      const moodGardenAddr = await moodGarden.getAddress();
+      const gardenNFTAddr = await gardenNFT.getAddress();
+      const petalTokenAddr = await petalToken?.getAddress();
+      
+      console.log("Contract addresses:", {
+        moodGarden: moodGardenAddr,
+        gardenNFT: gardenNFTAddr,
+        petalToken: petalTokenAddr
+      });
+
+      // Get current token ID before minting
+      const currentTokenId = await gardenNFT.getCurrentTokenId();
+      console.log("Current token ID before minting:", currentTokenId);
+
+      const tx = await moodGarden.mintGarden(await signer.getAddress(), { 
+        gasLimit: 500000
+      });
       console.log("Mint transaction sent:", tx.hash);
       const receipt = await tx.wait();
       console.log("Transaction receipt:", receipt);
       
-      let mintedTokenId: number | null = null;
-      for (const log of receipt.logs) {
-        try {
-          const parsed = gardenNFT.interface.parseLog(log);
-          console.log("Parsed log:", parsed);
-          if (parsed && parsed.name === "Transfer") {
-            mintedTokenId = Number(parsed.args.tokenId);
-            console.log("Found token ID:", mintedTokenId);
-            break;
-          }
-        } catch (err) {
-          console.error("Error parsing log:", err);
-        }
-      }
+      // Get the new token ID after minting
+      const newTokenId = await gardenNFT.getCurrentTokenId();
+      console.log("New token ID after minting:", newTokenId);
       
-      if (mintedTokenId === null) {
-        console.error("Could not find minted tokenId in logs");
-        alert("Could not find minted tokenId. Check contract events and ABI.");
-        return;
-      }
+      // Set the garden ID to the new token ID
+      setGardenId(Number(newTokenId) - 1); // Subtract 1 because getCurrentTokenId returns the next ID
+      console.log("Garden ID set to:", Number(newTokenId) - 1);
       
-      setGardenId(mintedTokenId);
-      console.log("Garden ID set to:", mintedTokenId);
-      alert(`Garden minted! ID: ${mintedTokenId}`);
+      alert(`Garden minted! ID: ${Number(newTokenId) - 1}`);
     } catch (err) {
       console.error("Error minting garden:", err);
       alert('Error minting garden: ' + (err instanceof Error ? err.message : String(err)));
@@ -155,21 +158,38 @@ const App: React.FC = () => {
   };
 
   const setGardenMood = async () => {
-    if (!moodGarden || !gardenId || !mood || loading) {
+    if (!moodGarden || !gardenId || !mood || loading || !gardenNFT || !signer) {
       console.error("Missing requirements for setting mood:", {
         hasMoodGarden: !!moodGarden,
         gardenId,
         mood,
-        isLoading: loading
+        isLoading: loading,
+        hasGardenNFT: !!gardenNFT,
+        hasSigner: !!signer
       });
       return;
     }
     setLoading(true);
     try {
       console.log("Setting mood for garden:", gardenId, "mood:", mood);
+      
+      // Verify garden ownership
+      const gardenOwner = await gardenNFT!.ownerOf(gardenId);
+      const signerAddress = await signer.getAddress();
+      console.log("Garden ownership check:", {
+        gardenOwner,
+        signerAddress,
+        gardenId
+      });
+
+      if (gardenOwner !== signerAddress) {
+        throw new Error("You are not the owner of this garden");
+      }
+
       const tx = await moodGarden.setMood(gardenId, mood);
       console.log("Set mood transaction sent:", tx.hash);
-      await tx.wait();
+      const receipt = await tx.wait();
+      console.log("Set mood transaction receipt:", receipt);
       
       const newMood = await moodGarden.getMood(gardenId);
       console.log("Retrieved new mood:", newMood);
@@ -210,6 +230,15 @@ const App: React.FC = () => {
     try {
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
       await tx.wait();
+      
+      // Show PetalRain effect on successful transfer
+      setShowPetalRain(true);
+      console.log('PetalRain activated for transfer');
+      setTimeout(() => {
+        setShowPetalRain(false);
+        console.log('PetalRain deactivated');
+      }, 5000);
+      
       alert("NFT transferred!");
       // Reset all relevant states
       setGardenId(null);
@@ -256,7 +285,7 @@ const App: React.FC = () => {
                 textShadow: "0 1px 8px #ffe0f0, 0 0 2px #4A90E2"
               }}
             >
-              🌸 Jardines Emocionales en Blockchain ��
+              🌸 Jardines Emocionales en Blockchain
             </span>
           </div>
         </div>
@@ -347,10 +376,25 @@ const App: React.FC = () => {
                     </div>
                   ) : (
                     <>
-                      <div className="garden-image-box">
+                      <div className="garden-image-box" style={{
+                        transition: 'transform 0.3s ease-in-out',
+                        cursor: 'pointer'
+                      }}>
                         <img
                           src={gardenImage}
                           alt="AI generated garden"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            transition: 'transform 0.3s ease-in-out'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'scale(1.05)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'scale(1)';
+                          }}
                         />
                       </div>
                       <div className="garden-actions">
