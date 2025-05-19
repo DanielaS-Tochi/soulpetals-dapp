@@ -180,6 +180,12 @@ MIT License
 
 Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/daniela-silvana-tochi.jpg" alt="Daniela logo" width="30"/>
 
+## 🔗 Enlaces
+
+- [Despliegue en Vercel](PROXIMAMENTE)
+- [Presentación del Proyecto](./presentation/SoulPetals_Presentacion.pptx)
+- [Pitch Deck](http://bit.ly/3GZq8cs)
+
 ## 🤖 Contribuidores y Asistentes de IA
 
 - **Daniela Silvana Tochi** - Desarrollo principal y diseño
