@@ -166,7 +166,7 @@ No es obligatorio tener MetaMask para usar la dApp: puedes operar solo con tu em
 - **Mejora tu Jardín**: Sube de nivel tu jardín, mejorando su crecimiento y apariencia visual.
 - **UX/UI**: Mejorar la experiencia móvil.
 - **Funcionalidades sociales**: Agregar perfil de usuario y galería de jardines.
-- **Red social de jardines:** Permitir a los usuarios compartir, explorar, dar “like” y comentar jardines en un feed público.
+- **Red social de jardines:** Permitir a los usuarios compartir, explorar, dar "like" y comentar jardines en un feed público.
 
 ## 🤝 Contribuciones
 
@@ -178,4 +178,19 @@ MIT License
 
 ## 📬 Contacto
 
- Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/daniela-silvana-tochi.jpg" alt="Daniela logo" width="30"/>
+Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/daniela-silvana-tochi.jpg" alt="Daniela logo" width="30"/>
+
+## 🤖 Contribuidores y Asistentes de IA
+
+- **Daniela Silvana Tochi** - Desarrollo principal y diseño
+- **Claude 3.7 Sonnet** - Asistencia en desarrollo, debugging y documentación
+- **VSC GitHub Copilot** - Soporte en desarrollo de código y optimización
+- **Cursor IDE** - Asistencia en desarrollo y refactorización
+- **Grok** - Contribuciones en análisis de código y sugerencias de mejora
+
+## 🌟 Agradecimientos Especiales
+
+Este proyecto fue desarrollado como parte del programa Núcleo. Agradezco especialmente a:
+- **Profesor Rafa** - Por su guía y mentoría en el desarrollo de proyectos blockchain
+- **Solange** - Por su apoyo y coordinación en el programa
+- **Programa Núcleo** - Por brindar las herramientas y el espacio para desarrollar este proyecto
