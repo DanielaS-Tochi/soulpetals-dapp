@@ -26,19 +26,20 @@ const Footer: React.FC = () => {
           gap: '20px',
           flexWrap: 'wrap'
         }}>
-          <a 
+          {/* Contracts details will be added in future updates */}
+          {/* <a 
             href="https://etherscan.io/address/0x..." 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{ color: '#4A5568', textDecoration: 'none' }}
+            style={{ color: '#372944', textDecoration: 'none' }}
           >
             View Contract
-          </a>
+          </a> */}
           <a 
             href="https://github.com/danielas-tochi/soulpetals-dapp" 
             target="_blank" 
             rel="noopener noreferrer"
-            style={{ color: '#4A5568', textDecoration: 'none' }}
+            style={{ color: '#372944', textDecoration: 'none' }}
           >
             GitHub
           </a>
@@ -56,7 +57,7 @@ const Footer: React.FC = () => {
         }}>
           <a 
             href="mailto:danielastochi@gmail.com"
-            style={{ color: '#4A5568', textDecoration: 'none' }}
+            style={{ color: '#372944', textDecoration: 'none' }}
           >
             danielastochi@gmail.com
           </a>
@@ -64,13 +65,13 @@ const Footer: React.FC = () => {
             href="https://www.linkedin.com/in/daniela-silvana-tochi/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#4A5568', textDecoration: 'none' }}
+            style={{ color: '#372944', textDecoration: 'none' }}
           >
             LinkedIn
           </a>
         </div>
         
-        <div style={{ color: '#4A5568', fontSize: '0.9em' }}>
+        <div style={{ color: '#372944', fontSize: '1em' }}>
           © 2025 SoulPetals. Developed by Daniela Silvana Tochi. All rights reserved.
         </div>
       </div>

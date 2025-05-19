@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="frontend/public/images/eth-logo.jpg" alt="SoulPetals Logo" width="80" style="border-radius: 50%; margin-bottom: 12px;" />
+  <img src="frontend/public/images/sp-logo.jpeg" alt="SoulPetals Logo" width="80" style="border-radius: 50%; margin-bottom: 12px;" />
 </div>
 
 # SoulPetals - Jardines Emocionales en Blockchain

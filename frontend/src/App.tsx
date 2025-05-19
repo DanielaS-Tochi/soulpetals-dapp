@@ -259,17 +259,18 @@ const App: React.FC = () => {
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
           <img
-            src="/images/eth-logo.jpg"
-            alt="Ethereum Logo"
+            src="/images/sp-logo.jpeg"
+            alt="SoulPetals Logo"
             className="eth-logo"
             style={{
-              width: 94,
-              height: 94,
+              width: 120,
+              height: 120,
               borderRadius: "50%",
               boxShadow: "0 0 12px #4A90E2, 0 0 4px #f687b3",
               objectFit: "cover",
               marginRight: 8,
-              background: "#fff"
+              background: "#fff",
+              border: "2px solid #f687b3"
             }}
           />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
