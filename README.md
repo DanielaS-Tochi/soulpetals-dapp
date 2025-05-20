@@ -16,6 +16,106 @@
 [![Privy](https://img.shields.io/badge/Privy-4A90E2?style=for-the-badge)](https://privy.io/)
 </div>
 
+## Características
+
+- 🌸 Mint de jardines como NFTs
+- 🎨 Personalización del mood del jardín
+- 🖼️ Generación de imágenes basadas en el mood
+- 💫 Efectos visuales con PetalRain
+- 🔄 Transferencia de NFTs
+- 🔗 Integración con MetaMask
+
+## Contratos Desplegados
+
+### Sepolia Testnet
+- MoodGarden: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
+- GardenNFT: `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512`
+- PetalToken: `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0`
+
+### Mainnet
+- Pendiente de despliegue
+
+## Cómo Usar
+
+1. Conecta tu wallet:
+   - Instala MetaMask
+   - Conéctate a la red Sepolia
+   - Click en "Connect Wallet / Sign In"
+
+2. Crea tu jardín:
+   - Click en "Mint a Magical Garden"
+   - Confirma la transacción en MetaMask
+   - Se creará un nuevo Garden ID
+
+3. Personaliza tu jardín:
+   - Selecciona o escribe un mood
+   - Click en "Set Mood"
+   - Genera la imagen con "Generate Garden IA"
+
+4. Transfiere tu jardín:
+   - Ingresa la dirección del receptor
+   - Click en "Transfer NFT"
+   - Confirma la transacción
+
+## Verificación en Etherscan
+
+1. Busca los contratos en [Sepolia Etherscan](https://sepolia.etherscan.io/)
+2. Verifica las transacciones con tu dirección
+3. Revisa el historial de NFTs en MetaMask
+
+## Desarrollo Local
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/tu-usuario/soulpetals-dapp.git
+cd soulpetals-dapp
+```
+
+2. Instala dependencias:
+```bash
+cd frontend
+npm install
+```
+
+3. Configura variables de entorno:
+```bash
+cp .env.example .env
+# Edita .env con tus claves
+```
+
+4. Inicia el servidor local:
+```bash
+npm start
+```
+
+## Tecnologías
+
+- React
+- TypeScript
+- Ethers.js
+- Hardhat
+- MetaMask
+- Privy
+
+## Próximas Mejoras
+
+- [ ] Implementar IPFS para almacenamiento de imágenes
+- [ ] Mejorar la UI/UX
+- [ ] Agregar más efectos visuales
+- [ ] Desplegar en Mainnet
+
+## Contribuir
+
+1. Fork el repositorio
+2. Crea tu rama de feature
+3. Commit tus cambios
+4. Push a la rama
+5. Abre un Pull Request
+
+## Licencia
+
+MIT
+
 ## 📝 Descripción
 
 SoulPetals es una aplicación descentralizada (dApp) que permite a los usuarios crear y nutrir jardines digitales mágicos en la blockchain.
@@ -200,4 +300,4 @@ Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/
 Este proyecto fue desarrollado como parte del programa Núcleo. Agradezco especialmente a:
 - **Profesor Rafa** - Por su guía y mentoría en el desarrollo de proyectos blockchain
 - **Solange** - Por su apoyo y coordinación en el programa
-- **Programa Núcleo** - Por brindar las herramientas y el espacio para desarrollar este proyecto
+- **Programa Núcleo Odisea** - Por brindar las herramientas y el espacio para desarrollar este proyecto
