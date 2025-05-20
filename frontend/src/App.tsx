@@ -299,9 +299,9 @@ const App: React.FC = () => {
     }
   }, [gardenId, loadGardenData]);
 
-  // Update transferNFT function to handle the transfer properly
+  // Update transferNFT function to reset state after transfer
   const transferNFT = async () => {
-    if (!gardenNFT || !userAddress || !gardenId || !transferTo || !moodGarden) return;
+    if (!gardenNFT || !userAddress || !gardenId || !transferTo) return;
     setLoading(true);
     try {
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
@@ -317,25 +317,15 @@ const App: React.FC = () => {
       
       showNotification("NFT transferred successfully!");
       
-      // Ensure we have the latest mood and image
-      try {
-        const currentMood = await moodGarden.getMood(gardenId);
-        console.log("Retrieved mood after transfer:", currentMood);
-        setCurrentMood(currentMood);
-        
-        if (currentMood) {
-          const imageUrl = generateMockGardenImage(currentMood);
-          console.log("Generated image URL:", imageUrl);
-          setGardenImage(imageUrl);
-        }
-      } catch (error) {
-        console.error("Error loading garden data after transfer:", error);
-      }
-      
+      // Reset all states to initial
+      setGardenId(null);
+      setCurrentMood('');
+      setGardenImage(null);
       setMood('');
       setTransferTo('');
-    } catch (error) {
-      console.error("Error in transfer:", error);
+      setPrompt('');
+      setGenerating(false);
+    } catch {
       showNotification("Error transferring NFT", 'error');
     } finally {
       setLoading(false);
