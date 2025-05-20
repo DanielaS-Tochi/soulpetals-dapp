@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 import { usePrivy, useWallets } from '@privy-io/react-auth';
@@ -7,6 +7,8 @@ import gardenNftAbi from './abi/gardenNftAbi.json';
 import moodGardenAbi from './abi/moodGardenAbi.json';
 import PetalRain from './components/PetalRain';
 import Footer from './components/Footer';
+import { useNetwork } from './hooks/useNetwork';
+import { getContractAddress } from './config/contracts';
 
 // Function to get the image for a mood, with a default fallback
 function generateMockGardenImage(mood: string): string {
@@ -22,16 +24,45 @@ function generateMockGardenImage(mood: string): string {
   return images[key] || images.default;
 }
 
-// Update these addresses for your deployment
-const moodGardenAddress = import.meta.env.VITE_MOOD_GARDEN_ADDRESS;
-const petalTokenAddress = import.meta.env.VITE_PETAL_TOKEN_ADDRESS;
-const gardenNftAddress = import.meta.env.VITE_GARDEN_NFT_ADDRESS;
-
-const moodSuggestions = ["peaceful", "joyful", "vibrant", "serene", "mystical"];
+// Add notification component
+const Notification = ({ message, type = 'success', onClose }: { message: string; type?: 'success' | 'error'; onClose: () => void }) => (
+  <div 
+    className={`notification ${type}`}
+    style={{
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      padding: '12px 24px',
+      borderRadius: '8px',
+      backgroundColor: type === 'success' ? '#f0fdf4' : '#fef2f2',
+      border: `1px solid ${type === 'success' ? '#86efac' : '#fecaca'}`,
+      color: type === 'success' ? '#166534' : '#991b1b',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      zIndex: 1000,
+      animation: 'slideIn 0.3s ease-out'
+    }}
+  >
+    {message}
+    <button 
+      onClick={onClose}
+      style={{
+        marginLeft: '12px',
+        background: 'none',
+        border: 'none',
+        color: 'inherit',
+        cursor: 'pointer',
+        fontSize: '1.2em'
+      }}
+    >
+      ×
+    </button>
+  </div>
+);
 
 const App: React.FC = () => {
   const { ready, authenticated, login, logout } = usePrivy();
   const { wallets } = useWallets();
+  const { isCorrectNetwork, chainId } = useNetwork();
 
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [userAddress, setUserAddress] = useState<string | null>(null);
@@ -47,10 +78,18 @@ const App: React.FC = () => {
   const [generating, setGenerating] = useState(false);
   const [transferTo, setTransferTo] = useState('');
   const [showPetalRain, setShowPetalRain] = useState(false);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // Obtener las direcciones de los contratos según la red
+  const moodGardenAddress = isCorrectNetwork && chainId ? getContractAddress('moodGarden', chainId) : null;
+  const petalTokenAddress = isCorrectNetwork && chainId ? getContractAddress('petalToken', chainId) : null;
+  const gardenNftAddress = isCorrectNetwork && chainId ? getContractAddress('gardenNft', chainId) : null;
+
+  const moodSuggestions = ["peaceful", "joyful", "vibrant", "serene", "mystical"];
 
   // Wallet and contract setup
   useEffect(() => {
-    if (!authenticated || !wallets.length) {
+    if (!authenticated || !wallets.length || !isCorrectNetwork || !chainId) {
       setSigner(null);
       setUserAddress(null);
       setMoodGarden(null);
@@ -58,6 +97,7 @@ const App: React.FC = () => {
       setGardenNFT(null);
       return;
     }
+
     const wallet = wallets[0];
     if (wallet && wallet.address) {
       setUserAddress(wallet.address);
@@ -72,13 +112,19 @@ const App: React.FC = () => {
         const provider = new ethers.BrowserProvider(ethProvider);
         provider.getSigner().then((sgn) => {
           setSigner(sgn);
-          setMoodGarden(new ethers.Contract(moodGardenAddress, moodGardenAbi, sgn));
-          setPetalToken(new ethers.Contract(petalTokenAddress, petalTokenAbi, sgn));
-          setGardenNFT(new ethers.Contract(gardenNftAddress, gardenNftAbi, sgn));
+          if (moodGardenAddress) {
+            setMoodGarden(new ethers.Contract(moodGardenAddress, moodGardenAbi, sgn));
+          }
+          if (petalTokenAddress) {
+            setPetalToken(new ethers.Contract(petalTokenAddress, petalTokenAbi, sgn));
+          }
+          if (gardenNftAddress) {
+            setGardenNFT(new ethers.Contract(gardenNftAddress, gardenNftAbi, sgn));
+          }
         });
       });
     }
-  }, [authenticated, wallets]);
+  }, [authenticated, wallets, isCorrectNetwork, chainId, moodGardenAddress, petalTokenAddress, gardenNftAddress]);
 
   // Approve tokens for upgrades (if needed)
   const approveTokens = async () => {
@@ -88,12 +134,18 @@ const App: React.FC = () => {
       const amount = ethers.parseEther("100");
       const tx = await petalToken.approve(await moodGarden.getAddress(), amount);
       await tx.wait();
-      alert("Tokens approved successfully!");
+      showNotification("Tokens approved successfully!");
     } catch {
-      alert("Error approving tokens");
+      showNotification("Error approving tokens", 'error');
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function to show notifications
+  const showNotification = (message: string, type: 'success' | 'error' = 'success') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000);
   };
 
   // Mint a new garden NFT
@@ -141,10 +193,10 @@ const App: React.FC = () => {
       setGardenId(Number(newTokenId) - 1); // Subtract 1 because getCurrentTokenId returns the next ID
       console.log("Garden ID set to:", Number(newTokenId) - 1);
       
-      alert(`Garden minted! ID: ${Number(newTokenId) - 1}`);
+      showNotification(`Garden minted successfully! ID: ${Number(newTokenId) - 1}`);
     } catch (err) {
       console.error("Error minting garden:", err);
-      alert('Error minting garden: ' + (err instanceof Error ? err.message : String(err)));
+      showNotification('Error minting garden: ' + (err instanceof Error ? err.message : String(err)), 'error');
     } finally {
       setLoading(false);
     }
@@ -174,20 +226,20 @@ const App: React.FC = () => {
       console.log("Setting mood for garden:", gardenId, "mood:", mood);
       
       // Verify garden ownership
-      const gardenOwner = await gardenNFT!.ownerOf(gardenId);
       const signerAddress = await signer.getAddress();
-      console.log("Garden ownership check:", {
-        gardenOwner,
-        signerAddress,
-        gardenId
-      });
-
-      if (gardenOwner !== signerAddress) {
-        throw new Error("You are not the owner of this garden");
+      console.log("Checking ownership for address:", signerAddress);
+      
+      const gardenOwner = await gardenNFT.ownerOf(gardenId);
+      console.log("Garden owner:", gardenOwner);
+      
+      if (gardenOwner.toLowerCase() !== signerAddress.toLowerCase()) {
+        throw new Error(`You are not the owner of this garden. Owner: ${gardenOwner}, Your address: ${signerAddress}`);
       }
 
+      console.log("Ownership verified, proceeding with setMood...");
       const tx = await moodGarden.setMood(gardenId, mood);
       console.log("Set mood transaction sent:", tx.hash);
+      
       const receipt = await tx.wait();
       console.log("Set mood transaction receipt:", receipt);
       
@@ -202,10 +254,10 @@ const App: React.FC = () => {
         console.log('PetalRain deactivated');
       }, 5000);
       
-      alert('Mood set successfully!');
+      showNotification('Mood set successfully!');
     } catch (err) {
       console.error("Error setting mood:", err);
-      alert('Error setting mood: ' + (err instanceof Error ? err.message : String(err)));
+      showNotification('Error setting mood: ' + (err instanceof Error ? err.message : String(err)), 'error');
     } finally {
       setLoading(false);
     }
@@ -218,14 +270,38 @@ const App: React.FC = () => {
       const imageUrl = generateMockGardenImage(mood || "default");
       setGardenImage(imageUrl);
     } catch {
-      alert("Error generating mock image");
+      showNotification("Error generating mock image", 'error');
     }
     setGenerating(false);
   };
 
-  // Transfer NFT to another address
+  // Memoize loadGardenData function
+  const loadGardenData = useCallback(async (gardenId: number) => {
+    if (!moodGarden || !gardenNFT || !signer) return;
+    
+    try {
+      const currentMood = await moodGarden.getMood(gardenId);
+      setCurrentMood(currentMood);
+      
+      if (currentMood) {
+        const imageUrl = generateMockGardenImage(currentMood);
+        setGardenImage(imageUrl);
+      }
+    } catch (error) {
+      console.error("Error loading garden data:", error);
+    }
+  }, [moodGarden, gardenNFT, signer]);
+
+  // Load garden data when gardenId changes
+  useEffect(() => {
+    if (gardenId !== null) {
+      loadGardenData(gardenId);
+    }
+  }, [gardenId, loadGardenData]);
+
+  // Update transferNFT function to handle the transfer properly
   const transferNFT = async () => {
-    if (!gardenNFT || !userAddress || !gardenId || !transferTo) return;
+    if (!gardenNFT || !userAddress || !gardenId || !transferTo || !moodGarden) return;
     setLoading(true);
     try {
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
@@ -239,15 +315,28 @@ const App: React.FC = () => {
         console.log('PetalRain deactivated');
       }, 5000);
       
-      alert("NFT transferred!");
-      // Reset all relevant states
-      setGardenId(null);
-      setCurrentMood('');
-      setGardenImage(null);
+      showNotification("NFT transferred successfully!");
+      
+      // Ensure we have the latest mood and image
+      try {
+        const currentMood = await moodGarden.getMood(gardenId);
+        console.log("Retrieved mood after transfer:", currentMood);
+        setCurrentMood(currentMood);
+        
+        if (currentMood) {
+          const imageUrl = generateMockGardenImage(currentMood);
+          console.log("Generated image URL:", imageUrl);
+          setGardenImage(imageUrl);
+        }
+      } catch (error) {
+        console.error("Error loading garden data after transfer:", error);
+      }
+      
       setMood('');
       setTransferTo('');
-    } catch {
-      alert("Error transferring NFT");
+    } catch (error) {
+      console.error("Error in transfer:", error);
+      showNotification("Error transferring NFT", 'error');
     } finally {
       setLoading(false);
     }
@@ -256,6 +345,13 @@ const App: React.FC = () => {
   return (
     <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {showPetalRain && <PetalRain />}
+      {notification && (
+        <Notification 
+          message={notification.message} 
+          type={notification.type} 
+          onClose={() => setNotification(null)} 
+        />
+      )}
       <div style={{ flex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16 }}>
           <img
@@ -306,7 +402,12 @@ const App: React.FC = () => {
             </div>
           )}
         </div>
-        {authenticated && (
+        {authenticated && !isCorrectNetwork && (
+          <div className="network-warning">
+            Por favor, conecta a la red Sepolia o Localhost
+          </div>
+        )}
+        {authenticated && isCorrectNetwork && (
           <>
             <button className="button" onClick={mintGarden} disabled={loading}>
               {loading ? 'Minting...' : 'Mint a Magical Garden'}
@@ -314,10 +415,21 @@ const App: React.FC = () => {
             {gardenId !== null && (
               <div className="garden-section">
                 <div className="garden-controls">
-                  <h2>Your Garden (ID: {gardenId})</h2>
-                  <p className="garden-info">
-                    Current Mood: {currentMood ? currentMood : 'Not set'}
-                  </p>
+                  <h2>Your Garden</h2>
+                  <div className="garden-info" style={{ 
+                    padding: '12px', 
+                    backgroundColor: '#f0f9ff', 
+                    borderRadius: '8px',
+                    marginBottom: '16px',
+                    border: '1px solid #bae6fd'
+                  }}>
+                    <p style={{ margin: 0, fontSize: '1.1em', color: '#0369a1' }}>
+                      Garden ID: <strong>{gardenId}</strong>
+                    </p>
+                    <p style={{ margin: '8px 0 0 0', color: '#0c4a6e' }}>
+                      Current Mood: {currentMood ? currentMood : 'Not set'}
+                    </p>
+                  </div>
                   <div className="mood-input">
                     <select
                       className="input"
@@ -325,7 +437,7 @@ const App: React.FC = () => {
                       onChange={e => setMood(e.target.value)}
                       style={{ width: 110, fontSize: "1em" }}
                     >
-                      <option value="">Mood</option>
+                      <option value="">Select Mood</option>
                       {moodSuggestions.map(m => (
                         <option key={m} value={m}>{m.charAt(0).toUpperCase() + m.slice(1)}</option>
                       ))}
@@ -340,7 +452,15 @@ const App: React.FC = () => {
                       maxLength={16}
                       pattern="[A-Za-z]+"
                     />
-                    <button className="button" onClick={setGardenMood} disabled={loading || !mood}>
+                    <button 
+                      className="button" 
+                      onClick={setGardenMood} 
+                      disabled={loading || !mood}
+                      style={{
+                        backgroundColor: mood ? '#4A90E2' : '#ccc',
+                        cursor: mood ? 'pointer' : 'not-allowed'
+                      }}
+                    >
                       {loading ? 'Setting...' : 'Set Mood'}
                     </button>
                   </div>
