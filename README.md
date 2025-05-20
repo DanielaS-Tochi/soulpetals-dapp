@@ -36,7 +36,7 @@ En futuras versiones, los jardines podrán crecer y evolucionar, y la generació
 
 ## 🛠️ Stack Tecnológico
 
-- **Smart Contracts**: Solidity (Hardhat)
+- **Smart Contracts**: Solidity (Hardhat) - ERC721 - ERC-20 (OpenZepellin)
 - **Frontend**: React, TypeScript, ethers.js
 - **Estilos**: CSS personalizado con colores inspirados en Ethereum y elementos florales
 - **Testing**: Hardhat 
@@ -193,6 +193,7 @@ Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/
 - **VSC GitHub Copilot** - Soporte en desarrollo de código y optimización
 - **Cursor IDE** - Asistencia en desarrollo y refactorización
 - **Grok** - Contribuciones en análisis de código y sugerencias de mejora
+- **Windsurf** - IDE and ChatGPT 4.1
 
 ## 🌟 Agradecimientos Especiales
 
