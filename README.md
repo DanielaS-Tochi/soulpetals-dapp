@@ -1,8 +1,11 @@
 <div align="center">
-  <img src="frontend/public/images/sp-logo.jpeg" alt="SoulPetals Logo" width="80" height="80" style="border-radius: 50%; object-fit: cover;" />
+  <img src="frontend/public/images/sp-logo.jpeg" alt="SoulPetals Logo" width="80" height="80" style="border-radius: 50%; object-fit: cover; display: block; margin: 0 auto;" />
 </div>
 
-# SoulPetals - Jardines Emocionales en Blockchain
+<div align="center">
+  <h1>SoulPetals</h1> 
+  <h2>Jardines Emocionales en Blockchain</h2>
+</div>
 
 <div align="center">
   
