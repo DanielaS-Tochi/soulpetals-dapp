@@ -206,7 +206,7 @@ Para preguntas o feedback, contactame: danielastochi@gmail.com <img src="images/
 
 ## 🔗 Enlaces
 
-- [Despliegue en Vercel](PROXIMAMENTE)
+- [Despliegue en Vercel](https://soulpetals-dapp.vercel.app/)
 - [Presentación del Proyecto](./presentation/SoulPetals_Presentacion.pptx)
 - [Pitch Deck](http://bit.ly/3GZq8cs)
 
