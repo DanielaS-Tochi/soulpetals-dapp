@@ -19,105 +19,6 @@
 [![Privy](https://img.shields.io/badge/Privy-4A90E2?style=for-the-badge)](https://privy.io/)
 </div>
 
-## Características
-
-- 🌸 Mint de jardines como NFTs
-- 🎨 Personalización del mood del jardín
-- 🖼️ Generación de imágenes basadas en el mood
-- 💫 Efectos visuales con PetalRain
-- 🔄 Transferencia de NFTs
-- 🔗 Integración con MetaMask
-
-## Contratos Desplegados
-
-### Sepolia Testnet
-- MoodGarden: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
-- GardenNFT: `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512`
-- PetalToken: `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0`
-
-### Mainnet
-- Pendiente de despliegue
-
-## Cómo Usar
-
-1. Conecta tu wallet:
-   - Instala MetaMask
-   - Conéctate a la red Sepolia
-   - Click en "Connect Wallet / Sign In"
-
-2. Crea tu jardín:
-   - Click en "Mint a Magical Garden"
-   - Confirma la transacción en MetaMask
-   - Se creará un nuevo Garden ID
-
-3. Personaliza tu jardín:
-   - Selecciona o escribe un mood
-   - Click en "Set Mood"
-   - Genera la imagen con "Generate Garden IA"
-
-4. Transfiere tu jardín:
-   - Ingresa la dirección del receptor
-   - Click en "Transfer NFT"
-   - Confirma la transacción
-
-## Verificación en Etherscan
-
-1. Busca los contratos en [Sepolia Etherscan](https://sepolia.etherscan.io/)
-2. Verifica las transacciones con tu dirección
-3. Revisa el historial de NFTs en MetaMask
-
-## Desarrollo Local
-
-1. Clona el repositorio:
-```bash
-git clone https://github.com/tu-usuario/soulpetals-dapp.git
-cd soulpetals-dapp
-```
-
-2. Instala dependencias:
-```bash
-cd frontend
-npm install
-```
-
-3. Configura variables de entorno:
-```bash
-cp .env.example .env
-# Edita .env con tus claves
-```
-
-4. Inicia el servidor local:
-```bash
-npm start
-```
-
-## Tecnologías
-
-- React
-- TypeScript
-- Ethers.js
-- Hardhat
-- MetaMask
-- Privy
-
-## Próximas Mejoras
-
-- [ ] Implementar IPFS para almacenamiento de imágenes
-- [ ] Mejorar la UI/UX
-- [ ] Agregar más efectos visuales
-- [ ] Desplegar en Mainnet
-
-## Contribuir
-
-1. Fork el repositorio
-2. Crea tu rama de feature
-3. Commit tus cambios
-4. Push a la rama
-5. Abre un Pull Request
-
-## Licencia
-
-MIT
 
 ## 📝 Descripción
 
@@ -133,17 +34,29 @@ En futuras versiones, los jardines podrán crecer y evolucionar, y la generació
 - **🌱 Crea tu Jardín**: Mintea tu propio jardín mágico como un NFT usando el contrato MoodGarden.
 - **😊 Establece tu Estado de Ánimo**: Elige un estado de ánimo (mood: peaceful, serene, vibrant, etc.) para influir en la apariencia y descripción de tu jardín.
 - **🖼️ Visualización de Jardín**: Actualmente, la visualización del jardín se realiza mediante imágenes fijas precargadas según el estado de ánimo seleccionado.
+- **Tokens PETAL**: Recibe tokens PETAL como recompensa diaria por interactuar con tu jardín.
 - **📱 Diseño Responsivo**: Estilizado con la paleta de colores de Ethereum, toques florales y un diseño adaptable a dispositivos móviles.
 
 > **Nota:** La integración con IA para generación dinámica de imágenes está planificada como mejora futura. Por ahora, las imágenes se muestran según el mood elegido y las imágenes precargadas.
 
 ## 🛠️ Stack Tecnológico
 
-- **Smart Contracts**: Solidity (Hardhat) - ERC721 - ERC-20 (OpenZepellin)
+- **Smart Contracts**: Solidity (Hardhat) - ERC721 - ERC20 (OpenZepellin)
+  - GardenNFT.sol: Implementa ERC721URIStorage para manejar metadatos de NFTs
+  - MoodGarden.sol: Gestiona estados de ánimo, recompensas diarias y URIs para diferentes niveles
+  - PetalToken.sol: Token ERC20 para recompensas y futuras interacciones
 - **Frontend**: React, TypeScript, ethers.js
 - **Estilos**: CSS personalizado con colores inspirados en Ethereum y elementos florales
 - **Testing**: Hardhat 
 - **Wallet**: MetaMask y Privy
+
+## Acceso y autenticación
+
+Puedes acceder a SoulPetals de dos maneras:
+- **Email o Google**: Privy te crea automáticamente una wallet embebida segura si no tienes una.
+- **Wallet externa**: También puedes conectar MetaMask u otra wallet compatible si lo prefieres.
+
+No es obligatorio tener MetaMask para usar la dApp: puedes operar solo con tu email y la wallet generada por Privy.
 
 ## 📋 Requisitos Previos
 
@@ -238,15 +151,23 @@ npx hardhat run scripts/deploy.ts --network sepolia
 Actualiza `App.tsx` con las nuevas direcciones de contratos.
 Asegúrate de que MetaMask esté configurado en la red Sepolia y conecta tu wallet.
 
-## 🚪 Acceso y autenticación
+## Contratos Desplegados
 
-Puedes acceder a SoulPetals de dos maneras:
-- **Email o Google**: Privy te crea automáticamente una wallet embebida segura si no tienes una.
-- **Wallet externa**: También puedes conectar MetaMask u otra wallet compatible si lo prefieres.
+### Sepolia Testnet
+- MoodGarden: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
+- GardenNFT: `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512`
+- PetalToken: `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0`
 
-No es obligatorio tener MetaMask para usar la dApp: puedes operar solo con tu email y la wallet generada por Privy.
+### Mainnet
+- Pendiente de despliegue
 
-## 📱 Uso
+## Verificación en Etherscan
+
+1. Busca los contratos en [Sepolia Etherscan](https://sepolia.etherscan.io/)
+2. Verifica las transacciones con tu dirección
+3. Revisa el historial de NFTs en MetaMask
+
+##  Uso
 
 1. **Conectar Wallet**: Haz clic en "Connect Wallet" para vincular MetaMask (local o Sepolia).
 2. **Mintear un Jardín**: Crea tu jardín mágico como NFT.
