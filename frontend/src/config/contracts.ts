@@ -5,9 +5,9 @@ export const CONTRACTS = {
     gardenNft: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"   // Dirección local
   },
   sepolia: {
-    moodGarden: import.meta.env.VITE_MOOD_GARDEN_ADDRESS || "0x9b8DE92673277FBa50211d83374C59E98D242b1b",
-    petalToken: import.meta.env.VITE_PETAL_TOKEN_ADDRESS || "0xDa6D5b6553afAf9718A2143734c3207E393BE726",
-    gardenNft: import.meta.env.VITE_GARDEN_NFT_ADDRESS || "0x874DfFA18Ce364400ff70551E1d0098e59eCfCD1"
+    moodGarden: import.meta.env.VITE_MOOD_GARDEN_ADDRESS || "0xA23eD114C568E49366AeC32eC1F9C2230087de25",
+    petalToken: import.meta.env.VITE_PETAL_TOKEN_ADDRESS || "0x671Bf554C629D929C714D265bC8dD65066a0Ae5D",
+    gardenNft: import.meta.env.VITE_GARDEN_NFT_ADDRESS || "0x812Fb854c4E98eCB8a16c4721C94d7C00D886dfC"
   }
 };
 

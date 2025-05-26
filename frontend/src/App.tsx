@@ -237,15 +237,21 @@ const App: React.FC = () => {
       }
 
       console.log("Ownership verified, proceeding with setMood...");
+      console.log("Setting mood and updating tokenURI..."); 
       const tx = await moodGarden.setMood(gardenId, mood);
       console.log("Set mood transaction sent:", tx.hash);
       
       const receipt = await tx.wait();
       console.log("Set mood transaction receipt:", receipt);
+      console.log("TokenURI updated successfully"); 
       
       const newMood = await moodGarden.getMood(gardenId);
       console.log("Retrieved new mood:", newMood);
       setCurrentMood(newMood);
+      
+      // Update the garden image based on the new mood
+      const imageUrl = generateMockGardenImage(newMood);
+      setGardenImage(imageUrl);
       
       setShowPetalRain(true);
       console.log('PetalRain activated');
@@ -269,7 +275,13 @@ const App: React.FC = () => {
     try {
       const imageUrl = generateMockGardenImage(mood || "default");
       setGardenImage(imageUrl);
-    } catch {
+      
+      // If we have a garden ID, update the mood as well
+      if (gardenId !== null && moodGarden && mood) {
+        await setGardenMood();
+      }
+    } catch (error) {
+      console.error("Error generating image:", error);
       showNotification("Error generating mock image", 'error');
     }
     setGenerating(false);
@@ -286,6 +298,14 @@ const App: React.FC = () => {
       if (currentMood) {
         const imageUrl = generateMockGardenImage(currentMood);
         setGardenImage(imageUrl);
+      }
+      
+      // También podríamos intentar cargar el tokenURI para verificar que está funcionando correctamente
+      try {
+        const tokenURI = await gardenNFT.tokenURI(gardenId);
+        console.log("Token URI for garden", gardenId, ":", tokenURI);
+      } catch (uriError) {
+        console.warn("Could not load tokenURI:", uriError);
       }
     } catch (error) {
       console.error("Error loading garden data:", error);
@@ -304,8 +324,18 @@ const App: React.FC = () => {
     if (!gardenNFT || !userAddress || !gardenId || !transferTo) return;
     setLoading(true);
     try {
+      // Antes de transferir, verificamos que el tokenURI esté configurado correctamente
+      try {
+        const tokenURI = await gardenNFT.tokenURI(gardenId);
+        console.log("Token URI before transfer:", tokenURI);
+      } catch (uriError) {
+        console.warn("Could not verify tokenURI before transfer:", uriError);
+      }
+      
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
       await tx.wait();
+      
+      console.log("NFT transferred successfully. The recipient will be able to see the garden image.");
       
       // Show PetalRain effect on successful transfer
       setShowPetalRain(true);
@@ -325,7 +355,8 @@ const App: React.FC = () => {
       setTransferTo('');
       setPrompt('');
       setGenerating(false);
-    } catch {
+    } catch (error) {
+      console.error("Error transferring NFT:", error);
       showNotification("Error transferring NFT", 'error');
     } finally {
       setLoading(false);
@@ -514,7 +545,7 @@ const App: React.FC = () => {
                           onClick={() => {
                             setGardenImage(null);
                             setMood('');
-                            setCurrentMood(''); // Borra el current mood hasta que se setee uno nuevo
+                            setCurrentMood(''); 
                           }}
                         >
                           Change Mood

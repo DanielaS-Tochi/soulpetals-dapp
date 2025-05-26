@@ -6,7 +6,6 @@
   <h1>SoulPetals</h1> 
   <h2>Jardines Emocionales en Blockchain</h2>
 </div>
-
 <div align="center">
   
 ![SoulPetals Logo](https://img.shields.io/badge/SoulPetals-Jardines%20Emocionales-brightgreen?style=for-the-badge&logo=ethereum)
