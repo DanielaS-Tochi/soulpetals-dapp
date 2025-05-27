@@ -237,6 +237,15 @@ const App: React.FC = () => {
         throw new Error(`You are not the owner of this garden. Owner: ${gardenOwner}, Your address: ${signerAddress}`);
       }
 
+      // Verificar si el mood ya está seteado
+      const currentMood = await moodGarden.getMood(gardenId);
+      if (currentMood.toLowerCase() === mood.toLowerCase()) {
+        console.log("Mood already set to:", mood);
+        setCurrentMood(mood);
+        showNotification('Mood already set. You can now describe your garden and generate the image.');
+        return;
+      }
+
       console.log("Ownership verified, proceeding with setMood...");
       const tx = await moodGarden.setMood(gardenId, mood);
       console.log("Set mood transaction sent:", tx.hash);
@@ -260,15 +269,27 @@ const App: React.FC = () => {
 
   // Generate the garden image (mock)
   const handleGenerateImage = async () => {
+    if (!currentMood) {
+      showNotification("Please set a mood first", 'error');
+      return;
+    }
     setGenerating(true);
     try {
-      const imageUrl = generateMockGardenImage(mood || "default");
+      const imageUrl = generateMockGardenImage(currentMood);
       setGardenImage(imageUrl);
       
-      // If we have a garden ID, update the mood as well
-      if (gardenId !== null && moodGarden && mood) {
-        await setGardenMood();
-      }
+      // Verificar que la imagen se cargue correctamente
+      const img = new Image();
+      img.onload = () => {
+        console.log("Image loaded successfully");
+        setShowPetalRain(true);
+        setTimeout(() => setShowPetalRain(false), 5000);
+      };
+      img.onerror = (err) => {
+        console.error("Error loading image:", err);
+        showNotification("Error loading garden image", 'error');
+      };
+      img.src = imageUrl;
     } catch (error) {
       console.error("Error generating image:", error);
       showNotification("Error generating mock image", 'error');
@@ -308,19 +329,19 @@ const App: React.FC = () => {
     }
   }, [gardenId, loadGardenData]);
 
-  // Update transferNFT function to reset state after transfer
+  // Update transferNFT function to verify tokenURI
   const transferNFT = async () => {
     if (!gardenNFT || !userAddress || !gardenId || !transferTo) return;
     setLoading(true);
     try {
-      // Antes de transferir, verificamos que el tokenURI esté configurado correctamente
-      try {
-        const tokenURI = await gardenNFT.tokenURI(gardenId);
-        console.log("Token URI before transfer:", tokenURI);
-      } catch (uriError) {
-        console.warn("Could not verify tokenURI before transfer:", uriError);
-      }
+      // Verificar el tokenURI antes de transferir
+      const tokenURI = await gardenNFT.tokenURI(gardenId);
+      console.log("Token URI before transfer:", tokenURI);
       
+      if (!tokenURI) {
+        throw new Error("Token URI not set. Please generate the image first.");
+      }
+
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
       await tx.wait();
       
@@ -328,11 +349,7 @@ const App: React.FC = () => {
       
       // Show PetalRain effect on successful transfer
       setShowPetalRain(true);
-      console.log('PetalRain activated for transfer');
-      setTimeout(() => {
-        setShowPetalRain(false);
-        console.log('PetalRain deactivated');
-      }, 5000);
+      setTimeout(() => setShowPetalRain(false), 5000);
       
       showNotification("NFT transferred successfully!");
       
@@ -346,7 +363,7 @@ const App: React.FC = () => {
       setGenerating(false);
     } catch (error) {
       console.error("Error transferring NFT:", error);
-      showNotification("Error transferring NFT", 'error');
+      showNotification("Error transferring NFT: " + (error instanceof Error ? error.message : String(error)), 'error');
     } finally {
       setLoading(false);
     }
