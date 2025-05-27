@@ -12,13 +12,14 @@ import { getContractAddress } from './config/contracts';
 
 // Function to get the image for a mood, with a default fallback
 function generateMockGardenImage(mood: string): string {
+  const baseUrl = 'https://soulpetals-dapp.vercel.app';
   const images: Record<string, string> = {
-    peaceful: "./images/moods/peaceful.jpeg",
-    joyful: "/images/moods/joyful.jpeg",
-    vibrant: "/images/moods/vibrant.jpeg",
-    serene: "/images/moods/serene.jpeg",
-    mystical: "/images/moods/mystical.jpeg",
-    default: "/images/moods/default.jpeg",
+    peaceful: `${baseUrl}/images/moods/peaceful.jpeg`,
+    joyful: `${baseUrl}/images/moods/joyful.jpeg`,
+    vibrant: `${baseUrl}/images/moods/vibrant.jpeg`,
+    serene: `${baseUrl}/images/moods/serene.jpeg`,
+    mystical: `${baseUrl}/images/moods/mystical.jpeg`,
+    default: `${baseUrl}/images/moods/default.jpeg`,
   };
   const key = mood.trim().toLowerCase();
   return images[key] || images.default;
