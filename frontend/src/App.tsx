@@ -334,14 +334,6 @@ const App: React.FC = () => {
     if (!gardenNFT || !userAddress || !gardenId || !transferTo) return;
     setLoading(true);
     try {
-      // Verificar el tokenURI antes de transferir
-      const tokenURI = await gardenNFT.tokenURI(gardenId);
-      console.log("Token URI before transfer:", tokenURI);
-      
-      if (!tokenURI) {
-        throw new Error("Token URI not set. Please generate the image first.");
-      }
-
       const tx = await gardenNFT.transferFrom(userAddress, transferTo, gardenId);
       await tx.wait();
       
