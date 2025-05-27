@@ -238,13 +238,11 @@ const App: React.FC = () => {
       }
 
       console.log("Ownership verified, proceeding with setMood...");
-      console.log("Setting mood and updating tokenURI..."); 
       const tx = await moodGarden.setMood(gardenId, mood);
       console.log("Set mood transaction sent:", tx.hash);
       
       const receipt = await tx.wait();
       console.log("Set mood transaction receipt:", receipt);
-      console.log("TokenURI updated successfully"); 
       
       const newMood = await moodGarden.getMood(gardenId);
       console.log("Retrieved new mood:", newMood);
@@ -252,14 +250,21 @@ const App: React.FC = () => {
       
       // Update the garden image based on the new mood
       const imageUrl = generateMockGardenImage(newMood);
+      console.log("Setting new image URL:", imageUrl);
       setGardenImage(imageUrl);
       
-      setShowPetalRain(true);
-      console.log('PetalRain activated');
-      setTimeout(() => {
-        setShowPetalRain(false);
-        console.log('PetalRain deactivated');
-      }, 5000);
+      // Verificar que la imagen se cargue correctamente
+      const img = new Image();
+      img.onload = () => {
+        console.log("Image loaded successfully");
+        setShowPetalRain(true);
+        setTimeout(() => setShowPetalRain(false), 5000);
+      };
+      img.onerror = (err) => {
+        console.error("Error loading image:", err);
+        showNotification("Error loading garden image", 'error');
+      };
+      img.src = imageUrl;
       
       showNotification('Mood set successfully!');
     } catch (err) {
