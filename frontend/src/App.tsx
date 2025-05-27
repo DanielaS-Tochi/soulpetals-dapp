@@ -276,19 +276,6 @@ const App: React.FC = () => {
     setGenerating(true);
     try {
       const imageUrl = generateMockGardenImage(currentMood);
-      
-      // Generar el tokenURI
-      const tokenURI = `https://soulpetals-dapp.vercel.app/api/metadata/${gardenId}?mood=${currentMood}`;
-      
-      // Guardar el tokenURI en el contrato
-      if (gardenNFT && gardenId) {
-        console.log("Setting tokenURI:", tokenURI);
-        const tx = await gardenNFT.setTokenURI(gardenId, tokenURI);
-        console.log("TokenURI transaction sent:", tx.hash);
-        await tx.wait();
-        console.log("TokenURI set successfully");
-      }
-      
       setGardenImage(imageUrl);
       
       // Verificar que la imagen se cargue correctamente
