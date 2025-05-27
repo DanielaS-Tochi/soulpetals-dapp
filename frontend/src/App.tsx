@@ -248,25 +248,8 @@ const App: React.FC = () => {
       console.log("Retrieved new mood:", newMood);
       setCurrentMood(newMood);
       
-      // Update the garden image based on the new mood
-      const imageUrl = generateMockGardenImage(newMood);
-      console.log("Setting new image URL:", imageUrl);
-      setGardenImage(imageUrl);
-      
-      // Verificar que la imagen se cargue correctamente
-      const img = new Image();
-      img.onload = () => {
-        console.log("Image loaded successfully");
-        setShowPetalRain(true);
-        setTimeout(() => setShowPetalRain(false), 5000);
-      };
-      img.onerror = (err) => {
-        console.error("Error loading image:", err);
-        showNotification("Error loading garden image", 'error');
-      };
-      img.src = imageUrl;
-      
-      showNotification('Mood set successfully!');
+      // No actualizamos la imagen aquí, solo el mood
+      showNotification('Mood set successfully! Now you can describe your garden and generate the image.');
     } catch (err) {
       console.error("Error setting mood:", err);
       showNotification('Error setting mood: ' + (err instanceof Error ? err.message : String(err)), 'error');
